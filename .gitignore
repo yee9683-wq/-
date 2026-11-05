@@ -20,3 +20,6 @@
 /idden-film/.thumbnails/
 /idden-film/.impeccable/
 /idden-film/.waveform-cache/
+# 원본 자료(관계자 정보 포함 PDF, 원본 제품 사진): 공개 저장소에 올리지 않음
+/*.pdf
+/제품사진/

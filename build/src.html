@@ -473,13 +473,13 @@ blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:13px;co
   track.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){e.preventDefault();go(cur+1)} if(e.key==='ArrowLeft'){e.preventDefault();go(cur-1)}});
   mark(0);
 
-  /* DPP 연결: 실서비스에서는 QR 주소의 제품 ID(pid)로 해당 제품 DPP 화면을 엶 */
-  var DPP_BASE='', pid=null;
+  /* DPP 연결: QR 주소의 제품 ID를 받아 제품 정보 화면(dpp.html#제품ID)으로 보냄.
+     예: index.html?pid=hb03-fragrance-hillstate-50 → dpp.html#hb03-fragrance-hillstate-50
+     제품 ID가 없으면 dpp.html의 제품 선택 화면이 열림 */
+  var DPP_PAGE='dpp.html', pid=null;
   try{pid=new URLSearchParams(location.search).get('pid')}catch(e){}
-  var link=document.getElementById('dppLink'), toast=document.getElementById('toast'), tt;
-  if(DPP_BASE&&pid){link.href=DPP_BASE+encodeURIComponent(pid);}
-  else link.addEventListener('click',function(e){e.preventDefault(); toast.hidden=true; void toast.offsetWidth;
-    toast.textContent='시안 화면입니다. 실제 서비스에서는 QR을 찍은 제품의 DPP 화면이 열립니다.'; toast.hidden=false;
-    clearTimeout(tt); tt=setTimeout(function(){toast.hidden=true},2800);});
+  if(!pid&&location.hash.length>1) pid=location.hash.slice(1);
+  var link=document.getElementById('dppLink');
+  link.href=DPP_PAGE+(pid&&/^[a-z0-9-]+$/.test(pid)?'#'+pid:'');
 })();
 </script>

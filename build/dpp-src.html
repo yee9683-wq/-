@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#FFFFFF">
+<title>이든 제품 정보</title>
+<style>
+/*FONT_FACE*/
+/* 이든 DPP 소비자 화면. 브랜드 페이지(index.html)와 같은 토큰: 흰 바탕, 짙은 초록 #193B2A 하나, Pretendard.
+   데이터 출처: 「DPP 제품정보 — 프레그런스 우선 작성본 20261027 - 힐스테이트_HB03_50mL」의 공개 범위 '소비자' 항목만 사용. */
+:root{
+  --canvas:#FFFFFF; --surface:#FFFFFF; --sand:#EEF0E9; --stage:#F6F5F6; --ink:#172A20; --stone:#4E5A53; --ash:#66716A;
+  --hairline:#E4E7E1; --forest:#193B2A; --on-forest:#F1F5EF; --on-forest-2:#B9CBBE;
+  --font:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --ease-out:cubic-bezier(0.23,1,0.32,1);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scrollbar-color:#D3D9D2 var(--canvas)}
+body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word}
+::selection{background:#DCE7DD;color:var(--ink)}
+:focus-visible{outline:2px solid var(--forest);outline-offset:3px}
+a{color:inherit;text-underline-offset:3px}
+img{display:block;max-width:100%}
+h1,h2,h3{text-wrap:balance} p{text-wrap:pretty}
+.app{max-width:480px;margin:0 auto;padding-top:env(safe-area-inset-top,0px);padding-bottom:calc(40px + env(safe-area-inset-bottom,0px))}
+.gut{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+
+/* 헤더 */
+.hdr{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;height:56px;background:var(--canvas)}
+.back{display:inline-flex;align-items:center;gap:6px;min-height:44px;text-decoration:none;font-size:15px;font-weight:600;color:var(--stone)}
+.back svg{transition:transform 200ms var(--ease-out)}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--forest);background:var(--sand);border-radius:999px;padding:6px 12px}
+
+/* 상단 제품 */
+.stage{background:var(--stage);aspect-ratio:1/1;overflow:hidden}
+.stage img{width:100%;height:100%;object-fit:cover}
+.title{padding-block:24px 4px}
+.title h1{margin:0;font-size:30px;line-height:1.28;font-weight:600;letter-spacing:-.035em}
+.title .variant{margin:6px 0 0;font-size:17px;font-weight:500;color:var(--stone)}
+.title .line{margin:12px 0 0;display:inline-flex;font-size:13px;font-weight:600;color:var(--forest);border:1px solid var(--hairline);border-radius:999px;padding:4px 12px}
+.mood{margin:20px 0 0;font-size:21px;line-height:1.5;font-weight:300;letter-spacing:-.025em;color:var(--ink)}
+.desc{margin:10px 0 0;color:var(--stone)}
+
+/* 핵심 정보 */
+.keys{margin-top:24px;display:grid;grid-template-columns:repeat(var(--n,3),1fr);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
+.keys div{padding:14px 0 14px 12px;min-width:0;border-left:1px solid var(--hairline)}
+.keys div:first-child{border-left:0;padding-left:0}
+.keys dt{font-size:12.5px;color:var(--ash)}
+.keys dd{margin:2px 0 0;font-size:16px;font-weight:600;letter-spacing:-.02em;line-height:1.35}
+
+/* 섹션 */
+.sec{padding-block:44px 0}
+.sec h2{margin:0 0 14px;font-size:22px;line-height:1.36;font-weight:300;letter-spacing:-.03em}
+.sec h2 b{font-weight:600}
+.sec p{margin:0;color:var(--stone)}
+
+/* 원료 출처 */
+.origin{border-radius:24px;background:var(--forest);color:var(--on-forest);padding:22px 20px}
+.origin .place{display:flex;gap:10px;align-items:flex-start}
+.origin .place svg{flex:none;margin-top:3px;color:var(--on-forest-2)}
+.origin strong{display:block;font-size:19px;font-weight:600;letter-spacing:-.02em;line-height:1.4}
+.origin small{display:block;font-size:13.5px;color:var(--on-forest-2);margin-top:2px}
+.origin .mat{margin-top:16px;padding-top:14px;border-top:1px solid rgba(241,245,239,.18);display:flex;justify-content:space-between;gap:12px;font-size:14px}
+.origin .mat span:first-child{color:var(--on-forest-2)}
+.origin .mat span:last-child{font-weight:600;text-align:right}
+.origin p{margin:14px 0 0;color:var(--on-forest);font-size:15px;line-height:1.7}
+
+/* 리추얼 */
+.ritual{list-style:none;margin:16px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ritual li{border:1px solid var(--hairline);border-radius:16px;padding:12px 12px 14px;min-width:0}
+.ritual .n{font-size:12px;font-weight:600;color:var(--ash)}
+.ritual strong{display:block;font-size:15px;font-weight:600;letter-spacing:-.02em;margin-top:2px}
+.ritual small{display:block;font-size:12.5px;color:var(--ash)}
+.ritual li.on{background:var(--forest);border-color:var(--forest)}
+.ritual li.on .n,.ritual li.on small{color:var(--on-forest-2)}
+.ritual li.on strong{color:var(--on-forest)}
+
+/* 캡 이야기 */
+.cap{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+.cap div{background:var(--sand);border-radius:16px;padding:14px}
+.cap dt{font-size:12.5px;color:var(--stone)}
+.cap dd{margin:2px 0 0;font-size:15px;font-weight:600;letter-spacing:-.02em;line-height:1.4}
+.cap dd small{display:block;font-size:12.5px;font-weight:400;color:var(--stone);margin-top:2px}
+
+/* 제품 정보 표 */
+.spec{margin:0;border-top:1px solid var(--ink)}
+.spec div{display:grid;grid-template-columns:108px 1fr;gap:12px;padding:13px 0;border-bottom:1px solid var(--hairline)}
+.spec dt{font-size:14px;color:var(--ash)}
+.spec dd{margin:0;font-size:15px;font-weight:500;line-height:1.5;min-width:0}
+.mono{font-variant-numeric:tabular-nums;letter-spacing:.02em}
+
+/* 준비 중 */
+.pending{margin-top:16px;border-radius:16px;border:1px dashed #C9D1CA;padding:14px 16px;font-size:14px;color:var(--stone)}
+.pending strong{display:block;color:var(--ink);font-weight:600;margin-bottom:6px}
+.pending ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.pending li{font-size:13px;background:var(--sand);border-radius:999px;padding:4px 10px}
+
+/* 문의 구매 */
+.buy{display:flex;flex-direction:column;gap:10px;margin-top:4px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;height:54px;border-radius:999px;text-decoration:none;font-size:16px;font-weight:600;transition:transform 160ms var(--ease-out),background-color 200ms ease}
+.btn:active{transform:scale(.97)}
+.btn.pri{background:var(--forest);color:#FFFFFF}
+.btn.sec2{border:1px solid var(--hairline);color:var(--ink);background:var(--surface)}
+.mail{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 0;font-size:14px;color:var(--stone)}
+.copy{appearance:none;border:1px solid var(--hairline);background:var(--surface);color:var(--ink);border-radius:999px;height:36px;padding:0 14px;font:600 13px var(--font);cursor:pointer;transition:transform 160ms var(--ease-out)}
+.copy:active{transform:scale(.96)}
+
+/* 같은 라인 */
+.others{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px}
+.others a{text-decoration:none;min-width:0}
+.others img{aspect-ratio:1/1;width:100%;height:auto;object-fit:cover;border-radius:16px;background:var(--stage);transition:transform 300ms var(--ease-out)}
+.others span{display:block;margin-top:8px;font-size:13px;font-weight:600;line-height:1.35;letter-spacing:-.02em}
+.others small{display:block;font-size:12px;color:var(--ash);font-weight:500}
+
+/* 선택 화면 */
+.choose h1{margin:8px 0 6px;font-size:26px;line-height:1.3;font-weight:300;letter-spacing:-.03em}
+.choose h1 b{font-weight:600}
+.choose > p{margin:0 0 20px;color:var(--stone)}
+.list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:18px 12px}
+.list a{text-decoration:none;display:block}
+.list img{aspect-ratio:1/1;width:100%;height:auto;object-fit:cover;border-radius:20px;background:var(--stage);transition:transform 300ms var(--ease-out)}
+.list strong{display:block;margin-top:10px;font-size:15px;font-weight:600;letter-spacing:-.02em;line-height:1.35}
+.list small{display:block;font-size:13px;color:var(--ash)}
+
+.foot{padding-block:40px 0;font-size:12.5px;line-height:1.6;color:var(--ash)}
+.foot b{color:var(--stone);font-weight:600}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:20;padding:10px 16px;border-radius:12px;background:var(--ink);color:#FFFFFF;font-size:14px;transition:opacity 200ms var(--ease-out),transform 200ms var(--ease-out)}
+@starting-style{.toast{opacity:0;transform:translate(-50%,8px)}}
+
+@media (hover:hover) and (pointer:fine){
+  .back:hover svg{transform:translateX(-2px)}
+  .others a:hover img,.list a:hover img{transform:scale(1.03)}
+  .btn.sec2:hover{background:var(--sand)}
+}
+@media (prefers-reduced-motion: reduce){*{transition-duration:0ms!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="hdr gut">
+    <a class="back" href="index.html" aria-label="이든 브랜드 이야기로 돌아가기">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>이든 이야기
+    </a>
+    <span class="badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>디지털 제품 여권</span>
+  </header>
+  <main id="view" aria-live="polite"></main>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+/* 제품 데이터. 공개 범위 '소비자' 항목과, 이미 공개된 브랜드 자료(idden.co, 브랜드 소개 페이지)만 씀.
+   pending: 확인이 끝나면 추가할 소비자 항목. 값을 추측해서 채우지 않음. */
+var COMMON = {
+  brand: "이든 (Idden)",
+  seller: "서스테이너블랩 주식회사",
+  line: "HB03 Bitter Summer",
+  buy: "https://idden.co/",
+  email: "hello@idden.co",
+  asOf: "2026년 10월 28일",
+  ritualText: "씻고, 보습하고, 향으로 마무리하는 일상. 자연의 한 장면을 떠올리게 하는 향으로 그날의 리추얼을 완성합니다.",
+  origin: {
+    place: "푸르메소셜팜",
+    where: "경기도 여주시, 푸르메재단 연계 스마트팜",
+    text: "푸르메소셜팜은 발달장애 청년들이 토마토를 재배하며 일하는 스마트팜입니다. 이곳에서 나오는 토마토 부산물을 새로운 자원으로 활용하는 이야기를 담습니다."
+  }
+};
+var PRODUCTS = [
+  {
+    id: "hb03-fragrance-hillstate-50", step: 3,
+    name: "이든 에이치 프레그런스", variant: "50mL · 힐스테이트",
+    photo: "img/dpp/hb03-fragrance-hillstate-50.jpg", thumb: "img/dpp/hb03-fragrance-hillstate-50-s.jpg",
+    alt: "힐스테이트 Bitter Summer by Idden 프레그런스 병과 우드 톤 캡",
+    mood: "해 질 무렵 정원, 토마토 줄기의 초록빛 향.",
+    desc: "옷과 침구, 머무는 공간에 향을 더하는 섬유·실내용 프레그런스입니다.",
+    keys: [["내용량", "50mL"], ["원료", "토마토 줄기 부산물"], ["제품 유형", "방향제"]],
+    material: "토마토 줄기 부산물",
+    cap: { text: "향을 담는 유리병과 목재 부산물을 활용한 Terrafin WC 캡. 이든은 향과 함께, 제품을 감싸는 소재의 쓰임도 고민합니다.",
+           items: [["용기", "유리병", ""], ["캡", "Terrafin WC", "목재 부산물 기반 소재"]] },
+    spec: [["브랜드", COMMON.brand], ["제품명", "이든 에이치 프레그런스"], ["제품 유형", "안전확인대상생활화학제품, 방향제(분무기형)"], ["내용량", "50mL"],
+           ["바코드", "<span class=\"mono\">8809821110514</span>"], ["판매원", COMMON.seller], ["입에 넣는 제품", "아니요. 입에 넣어 사용하는 제품이 아닙니다."]],
+    pending: ["사용 방법", "사용 시 주의사항"]
+  },
+  {
+    id: "hb03-fragrance-idden-30", step: 3,
+    name: "이든 에이치 프레그런스", variant: "30mL",
+    photo: "img/dpp/hb03-fragrance-idden-30.jpg", thumb: "img/dpp/hb03-fragrance-idden-30-s.jpg",
+    alt: "이든 HB03 Bitter Summer 프레그런스 병과 우드 톤 캡",
+    mood: "해 질 무렵 정원, 토마토 줄기의 초록빛 향.",
+    desc: "옷과 침구, 머무는 공간에 향을 더하는 섬유·실내용 프레그런스입니다.",
+    keys: [["내용량", "30mL"], ["원료", "토마토 줄기 부산물"], ["제품 유형", "방향제"]],
+    material: "토마토 줄기 부산물",
+    cap: null,
+    spec: [["브랜드", COMMON.brand], ["제품명", "이든 에이치 프레그런스"], ["제품 유형", "안전확인대상생활화학제품, 방향제(분무기형)"], ["내용량", "30mL"],
+           ["판매원", COMMON.seller], ["입에 넣는 제품", "아니요. 입에 넣어 사용하는 제품이 아닙니다."]],
+    pending: ["바코드", "포장 소재", "사용 방법", "사용 시 주의사항"]
+  },
+  {
+    id: "hb03-lotion-hillstate", step: 2,
+    name: "힐스테이트 바디 로션", variant: "HB03 Bitter Summer",
+    photo: "img/dpp/hb03-lotion-hillstate.jpg", thumb: "img/dpp/hb03-lotion-hillstate-s.jpg",
+    alt: "힐스테이트 바디 로션 HB03 Bitter Summer by Idden 펌프 용기",
+    mood: null,
+    desc: "샤워 후 피부를 가볍게 돌보는 바디 로션입니다. 리추얼의 두 번째 단계입니다.",
+    keys: [["라인", "Bitter Summer"], ["리추얼", "2단계 보습"]],
+    material: null,
+    cap: null,
+    spec: [["브랜드", COMMON.brand], ["제품명", "힐스테이트 바디 로션"], ["라인", COMMON.line], ["판매원", COMMON.seller]],
+    pending: ["내용량", "제품 유형", "바코드", "원료 정보", "사용 방법", "사용 시 주의사항"]
+  },
+  {
+    id: "hb03-earthbar", step: 1,
+    name: "이든 얼스바", variant: "HB03 Bitter Summer",
+    photo: "img/dpp/hb03-earthbar.jpg", thumb: "img/dpp/hb03-earthbar-s.jpg",
+    alt: "이든 로고가 새겨진 버건디색 원형 고체 비누",
+    mood: null,
+    desc: "샴푸, 린스, 바디워시 구분 없이 하나로 쓰는 고체 비누입니다. 플라스틱 용기가 필요 없습니다.",
+    keys: [["형태", "고체 비누"], ["리추얼", "1단계 씻기"]],
+    material: null,
+    cap: null,
+    spec: [["브랜드", COMMON.brand], ["제품명", "이든 얼스바"], ["라인", COMMON.line], ["판매원", COMMON.seller]],
+    pending: ["중량", "제품 유형", "바코드", "원료 정보", "사용 방법", "사용 시 주의사항"]
+  }
+];
+var STEPS = [["1", "Cleanse", "씻기"], ["2", "Nourish", "보습"], ["3", "Fragrance", "향"]];
+
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]; }); }
+var pin = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
+var arrow = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>';
+
+function productView(p){
+  var o = COMMON.origin, h = [];
+  h.push('<div class="stage"><img src="' + p.photo + '" alt="' + esc(p.alt) + '" width="1200" height="1200"></div>');
+  h.push('<section class="title gut"><h1>' + esc(p.name) + '</h1><p class="variant">' + esc(p.variant) + '</p>' +
+         (p.mood ? '<p class="mood">' + esc(p.mood) + '</p>' : '') +
+         '<p class="desc">' + esc(p.desc) + '</p>' +
+         '<dl class="keys" style="--n:' + p.keys.length + '">' + p.keys.map(function(k){ return '<div><dt>' + esc(k[0]) + '</dt><dd>' + esc(k[1]) + '</dd></div>'; }).join('') + '</dl></section>');
+  h.push('<section class="sec gut" aria-labelledby="o-h"><h2 id="o-h">' + (p.material ? '이 향은<br><b>토마토 농장에서 시작했습니다</b>' : 'Bitter Summer 라인은<br><b>토마토 농장에서 시작했습니다</b>') + '</h2>' +
+         '<div class="origin"><div class="place">' + pin + '<div><strong>' + esc(o.place) + '</strong><small>' + esc(o.where) + '</small></div></div>' +
+         (p.material ? '<div class="mat"><span>사용한 부산물</span><span>' + esc(p.material) + '</span></div>' : '') +
+         '<p>' + esc(o.text) + '</p></div></section>');
+  h.push('<section class="sec gut" aria-labelledby="r-h"><h2 id="r-h">하루를 마무리하는<br><b>세 단계 리추얼</b></h2><p>' + esc(COMMON.ritualText) + '</p>' +
+         '<ol class="ritual">' + STEPS.map(function(s, i){ var on = (i + 1) === p.step; return '<li' + (on ? ' class="on" aria-current="true"' : '') + '><span class="n">' + s[0] + '단계' + (on ? ', 이 제품' : '') + '</span><strong>' + s[1] + '</strong><small>' + s[2] + '</small></li>'; }).join('') + '</ol></section>');
+  if (p.cap) {
+    h.push('<section class="sec gut" aria-labelledby="c-h"><h2 id="c-h">향을 감싸는<br><b>소재 이야기</b></h2><p>' + esc(p.cap.text) + '</p>' +
+           '<dl class="cap">' + p.cap.items.map(function(c){ return '<div><dt>' + esc(c[0]) + '</dt><dd>' + esc(c[1]) + (c[2] ? '<small>' + esc(c[2]) + '</small>' : '') + '</dd></div>'; }).join('') + '</dl></section>');
+  }
+  h.push('<section class="sec gut" aria-labelledby="s-h"><h2 id="s-h"><b>제품 정보</b></h2><dl class="spec">' +
+         p.spec.map(function(r){ return '<div><dt>' + esc(r[0]) + '</dt><dd>' + r[1] + '</dd></div>'; }).join('') + '</dl>' +
+         (p.pending && p.pending.length ? '<div class="pending"><strong>확인을 마치는 대로 추가됩니다</strong><ul>' + p.pending.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>' : '') + '</section>');
+  h.push('<section class="sec gut" aria-labelledby="b-h"><h2 id="b-h"><b>문의와 구매</b></h2><div class="buy">' +
+         '<a class="btn pri" href="' + COMMON.buy + '" target="_blank" rel="noopener">이든 공식몰에서 보기 ' + arrow + '</a>' +
+         '<div class="mail"><span>문의 <b class="mono" id="mailAddr">' + COMMON.email + '</b></span><button class="copy" type="button" id="copyMail">주소 복사</button></div></div></section>');
+  var others = PRODUCTS.filter(function(x){ return x.id !== p.id; });
+  h.push('<section class="sec gut" aria-labelledby="x-h"><h2 id="x-h">같은 라인의<br><b>다른 제품</b></h2><div class="others">' +
+         others.map(function(x){ return '<a href="#' + x.id + '"><img src="' + x.thumb + '" alt="" loading="lazy" width="480" height="480"><span>' + esc(x.name) + '</span><small>' + esc(x.variant) + '</small></a>'; }).join('') + '</div></section>');
+  h.push('<footer class="foot gut">정보 제공 <b>' + COMMON.seller + '</b><br>정보 기준일 ' + COMMON.asOf + '<br>제품 ID <span class="mono">' + p.id + '</span></footer>');
+  return h.join('');
+}
+function chooseView(){
+  return '<section class="choose gut" style="padding-top:12px"><h1>어떤 제품의<br><b>정보를 볼까요?</b></h1><p>제품에 붙은 QR을 찍으면 그 제품의 정보가 바로 열립니다.</p><ul class="list">' +
+    PRODUCTS.map(function(x){ return '<li><a href="#' + x.id + '"><img src="' + x.thumb + '" alt="' + esc(x.alt) + '" width="480" height="480"><strong>' + esc(x.name) + '</strong><small>' + esc(x.variant) + '</small></a></li>'; }).join('') +
+    '</ul></section><footer class="foot gut">정보 제공 <b>' + COMMON.seller + '</b></footer>';
+}
+function currentId(){
+  var id = (location.hash || "").replace(/^#/, "");
+  if (!id) { try { id = new URLSearchParams(location.search).get("pid") || ""; } catch (e) {} }
+  return id;
+}
+var view = document.getElementById("view"), toast = document.getElementById("toast"), tt;
+function render(){
+  var id = currentId(), p = null;
+  for (var i = 0; i < PRODUCTS.length; i++) if (PRODUCTS[i].id === id) p = PRODUCTS[i];
+  view.innerHTML = p ? productView(p) : chooseView();
+  document.title = p ? p.name + " " + p.variant + " | 이든 제품 정보" : "이든 제품 정보";
+  window.scrollTo(0, 0);
+  var b = document.getElementById("copyMail");
+  if (b) b.addEventListener("click", function(){
+    var t = COMMON.email, done = function(ok){ toast.textContent = ok ? "주소를 복사했습니다" : "주소를 길게 눌러 복사해 주세요"; toast.hidden = false; clearTimeout(tt); tt = setTimeout(function(){ toast.hidden = true; }, 2000); };
+    try { navigator.clipboard.writeText(t).then(function(){ done(true); }, function(){ selectMail(); done(false); }); } catch (e) { selectMail(); done(false); }
+  });
+}
+function selectMail(){ var el = document.getElementById("mailAddr"); if (!el) return; var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+window.addEventListener("hashchange", render);
+render();
+</script>
+</body>
+</html>

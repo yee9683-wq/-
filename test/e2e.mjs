@@ -74,9 +74,8 @@ async function run(label, ctxOpts) {
   const cta = await page.locator('#dppLink').boundingBox();
   const vh = page.viewportSize().height;
   ok(`[${label}] DPP 버튼 하단 고정, 높이 44px 이상`, cta && cta.y + cta.height <= vh && cta.y > vh - 100 && cta.height >= 44, JSON.stringify(cta));
-  await page.click('#dppLink');
-  await page.waitForTimeout(250);
-  ok(`[${label}] DPP 클릭 안내 표시`, await page.isVisible('#toast'));
+  const href = await page.getAttribute('#dppLink', 'href');
+  ok(`[${label}] DPP 버튼이 제품 정보 화면으로 연결`, href === 'dpp.html', href);
 
   // 터치 영역 44px 이상 (버튼)
   const small = await page.$$eval('button, .cta', els => els.filter(e => { const r = e.getBoundingClientRect(); return r.width && (r.height < 24 || r.width < 24); }).length);

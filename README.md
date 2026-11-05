@@ -9,6 +9,7 @@
 
 | 경로 | 내용 |
 |---|---|
+| `dpp.html` | 제품 정보(DPP) 소비자 화면 4종. 원본 `build/dpp-src.html`, 작업 메모 `DPP-NOTES.md` |
 | `index.html` | 배포용 결과물. 글꼴(Pretendard 부분 글꼴)이 안에 들어간 단일 HTML |
 | `build/src.html` | 원본 소스. 수정은 여기서 함 |
 | `build/build.py` | `src.html`에 쓰인 글자만 골라 Pretendard를 부분 글꼴로 만들고 `index.html`을 생성 |
@@ -35,16 +36,17 @@ pip install fonttools brotli
 python build/build.py
 
 # 점검 (Chrome 설치 필요)
-cd test && npm install && node e2e.mjs
+cd test && npm install && node e2e.mjs && node e2e-dpp.mjs
 ```
 
 ## 개발 요청 사항
 
 ### 1. DPP 연결 (필수)
-- QR 주소에 제품 식별자를 붙여 이 페이지로 보냄. 예: `https://<도메인>/?pid=HB03-EARTHBAR`
-- `build/src.html` 하단 스크립트의 `DPP_BASE`에 DPP 화면 주소를 넣으면, 버튼이 `DPP_BASE + pid`로 연결됨
-- 현재는 `DPP_BASE`가 비어 있어서 버튼을 누르면 "시안 화면입니다" 안내만 뜸
-- pid가 없거나 잘못된 경우의 처리(브랜드 공통 정보 화면 등) 정의 필요
+- QR 주소에 제품 ID를 붙여 브랜드 페이지로 보냄. 예: `https://<도메인>/?pid=hb03-fragrance-hillstate-50`
+- 브랜드 페이지 버튼이 `dpp.html#<제품ID>`로 이동함. 제품 ID가 없거나 모르는 ID면 제품 선택 화면
+- 현재 제품 ID 4개: `hb03-fragrance-hillstate-50`, `hb03-fragrance-idden-30`, `hb03-lotion-hillstate`, `hb03-earthbar`
+- 제품 데이터는 `build/dpp-src.html`의 `PRODUCTS` 배열. 실서비스에서는 DPP 데이터 API로 대체 필요
+- 공개 범위 "소비자" 항목만 노출. "관계자" 항목은 권한 화면이 별도로 필요
 
 ### 2. 배포
 - 정적 파일이라 어떤 호스팅에도 올릴 수 있음(GitHub Pages, S3+CloudFront 등)

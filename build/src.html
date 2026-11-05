@@ -1,0 +1,492 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>이든 브랜드 소개</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="page-type" content="product">
+<meta name="site-kind" content="other">
+<style>
+/*FONT_FACE*/
+/* 레이아웃: 모바일 단일 컬럼(최대 480px). 종이색 바탕 위 풀블리드 필름, 가로 스와이프 스토리, 어두운 언론 띠, 하단 고정 DPP 버튼.
+   레퍼런스 규칙: Oura DESIGN.md(여백, 글꼴 위계) / 색은 원래 시안(흰 바탕, 짙은 초록 #193B2A) */
+:root{
+  --canvas:#FFFFFF; --surface:#FFFFFF; --sand:#EEF0E9; --ink:#172A20; --stone:#4E5A53; --ash:#66716A;
+  --hairline:#E4E7E1; --forest:#193B2A; --on-forest:#F1F5EF; --on-forest-2:#B9CBBE; --sage-pale:#DCE7DD;
+  --band:#193B2A; --on-band:#F1F5EF; --on-band-2:#B3C6B8; --band-card:#FFFFFF;
+  --action:#193B2A; --on-action:#FFFFFF; --dot:#D3D9D2; --dot-on:#193B2A;
+  --font:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --ease-out:cubic-bezier(0.23,1,0.32,1);
+  --r-card:24px; --r-media:32px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --canvas:#0F1712; --surface:#16211A; --sand:#1C2A21; --ink:#E9EFE9; --stone:#C2CCC4; --ash:#93A097;
+  --hairline:#26342B; --forest:#1E4632; --on-forest:#F1F5EF; --on-forest-2:#B9CBBE; --sage-pale:#2A4535;
+  --band:#0B120D; --on-band:#E9EFE9; --on-band-2:#93A097; --band-card:#16211A;
+  --action:#9CC9AE; --on-action:#0F1712; --dot:#33443A; --dot-on:#E9EFE9; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --canvas:#0F1712; --surface:#16211A; --sand:#1C2A21; --ink:#E9EFE9; --stone:#C2CCC4; --ash:#93A097;
+  --hairline:#26342B; --forest:#1E4632; --on-forest:#F1F5EF; --on-forest-2:#B9CBBE; --sage-pale:#2A4535;
+  --band:#0B120D; --on-band:#E9EFE9; --on-band-2:#93A097; --band-card:#16211A;
+  --action:#9CC9AE; --on-action:#0F1712; --dot:#33443A; --dot-on:#E9EFE9; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scrollbar-color:var(--dot) var(--canvas)}
+body{background:var(--canvas);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word;caret-color:var(--action)}
+::selection{background:var(--sage-pale);color:var(--ink)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--canvas)}
+a{color:inherit;text-underline-offset:3px}
+img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--action);outline-offset:3px}
+.app{max-width:480px;margin:0 auto;background:var(--canvas);min-height:100%;padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))}
+.gut{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+h1,h2,h3{text-wrap:balance}
+p{text-wrap:pretty}
+
+/* 헤더 */
+.hdr{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;justify-content:space-between;height:56px;background:var(--canvas)}
+.wordmark{display:flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;font-size:20px;letter-spacing:-.035em;color:var(--stone)}
+.wordmark img{width:20px;height:auto}
+.hdr small{font-size:13px;color:var(--ash)}
+
+/* 브랜드 필름: 클라이언트 파일 film/idden-film.mp4 (10초). 없으면 보르네오 사진으로 대체 */
+.film{position:relative;aspect-ratio:4/5;max-height:78vh;width:100%;overflow:hidden;background:#193B2A;color:#FFFFFF;isolation:isolate}
+.film video,.film .still{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.film .still{display:none}
+.film.nofilm .still{display:block;animation:drift 10s var(--ease-out) infinite alternate}
+.film.nofilm video{display:none}
+.film.paused .still{animation-play-state:paused}
+@keyframes drift{from{transform:scale(1.02)}to{transform:scale(1.1) translate(-1.5%,-2%)}}
+.film::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(12,28,20,.2) 0%,rgba(12,28,20,0) 35%,rgba(12,28,20,0) 50%,rgba(12,28,20,.72) 100%)}
+.film-copy{position:absolute;left:0;right:0;bottom:0;z-index:2;padding-bottom:28px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+.film h1{margin:0;font-size:46px;line-height:1.04;font-weight:300;letter-spacing:-.035em;color:#FFFFFF}
+/* 영상이 재생되면 영상 속 문구가 제목 역할을 하므로 페이지 제목은 화면에서만 숨김 */
+.film:not(.nofilm)::after{content:none}
+.film:not(.nofilm) h1{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.film:not(.nofilm) .film-copy{justify-content:flex-end;padding-bottom:20px}
+.film h1 b{font-weight:600}
+.film-ctrl{flex:none;appearance:none;width:44px;height:44px;border-radius:999px;border:1px solid rgba(255,255,255,.55);background:rgba(12,28,20,.28);
+  color:#FFFFFF;display:grid;place-items:center;cursor:pointer;transition:transform 160ms var(--ease-out),background-color 200ms ease}
+.film-ctrl:active{transform:scale(.94)}
+.film-bar{display:flex;justify-content:flex-end;align-items:center;gap:8px;padding-block:10px 0}
+.film-bar .film-ctrl{background:var(--surface);border:1px solid var(--hairline);color:var(--ink)}
+.film-sound{width:auto;padding:0 14px 0 12px;gap:6px;display:inline-flex;align-items:center;font:600 13px var(--font);letter-spacing:-.01em}
+.film-sound .i-on{display:none}
+.film.sound-on ~ .film-bar .film-sound .i-on{display:block}
+.film.sound-on ~ .film-bar .film-sound .i-muted{display:none}
+.film.paused ~ .film-bar .film-ctrl .i-play{display:block}
+.film.paused ~ .film-bar .film-ctrl .i-pause{display:none}
+.film.nofilm ~ .film-bar{display:none}
+@media (hover:hover) and (pointer:fine){.film-bar .film-ctrl:hover{background:var(--sand)}}
+
+.film-ctrl:focus-visible{outline-color:#FFFFFF}
+.film-ctrl .i-play{display:none}
+.film.paused .film-ctrl .i-play{display:block}
+.film.paused .film-ctrl .i-pause{display:none}
+
+/* 인트로 */
+.intro{padding-block:36px 8px}
+.intro h2{margin:0 0 14px;font-size:30px;line-height:1.28;font-weight:300;letter-spacing:-.03em}
+.intro h2 b{font-weight:600}
+.intro p{margin:0;color:var(--stone);max-width:34em}
+.scan{margin-top:24px;padding-block:14px;display:flex;gap:12px;align-items:center;border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);font-size:14px;line-height:1.5;color:var(--stone)}
+.scan svg{flex:none;color:var(--ink)}
+
+/* 섹션 공통 */
+.sec{padding-block:56px 0}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px}
+.sec-head h2{margin:0;font-size:26px;line-height:1.32;font-weight:300;letter-spacing:-.03em}
+.sec-head h2 b{font-weight:600}
+
+/* 스토리 캐러셀 */
+.arrows{display:flex;gap:8px;flex:none}
+.arrows button{appearance:none;width:44px;height:44px;border-radius:999px;border:1px solid var(--stone);background:transparent;color:var(--stone);cursor:pointer;
+  display:grid;place-items:center;transition:transform 160ms var(--ease-out),opacity 200ms ease,background-color 200ms ease}
+.arrows button:active:not(:disabled){transform:scale(.94)}
+.arrows button:disabled{opacity:.3;cursor:default}
+.dots{display:flex;justify-content:center;align-items:center;gap:0;margin:0 0 6px}
+.dots button{appearance:none;border:0;background:none;padding:12px 8px;cursor:pointer}
+.dots button::before{content:"";display:block;width:8px;height:8px;border-radius:999px;background:var(--dot);transition:width 200ms var(--ease-out),background-color 200ms ease}
+.dots button[aria-current="true"]::before{width:24px;background:var(--dot-on)}
+.track{display:grid;grid-auto-flow:column;grid-auto-columns:86%;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;
+  scroll-padding-inline:max(20px,env(safe-area-inset-left,0px));padding-inline:max(20px,env(safe-area-inset-left,0px)) max(20px,env(safe-area-inset-right,0px));
+  padding-bottom:4px;scrollbar-width:none;overscroll-behavior-x:contain}
+.track::-webkit-scrollbar{display:none}
+.card{scroll-snap-align:start;scroll-snap-stop:always;min-width:0;display:flex;flex-direction:column;border-radius:var(--r-card);background:var(--surface);border:1px solid var(--hairline);overflow:hidden}
+.card .ph{aspect-ratio:4/3;overflow:hidden;background:var(--sand)}
+.card .ph img{width:100%;height:100%;object-fit:cover;transition:transform 400ms var(--ease-out)}
+.card .body{padding:20px 20px 22px;display:flex;flex-direction:column;gap:10px;flex:1}
+.card h3{margin:0;font-size:20px;line-height:1.38;font-weight:600;letter-spacing:-.025em}
+.card p{margin:0;font-size:15px;line-height:1.65;color:var(--stone)}
+.card .meta{margin-top:auto;padding-top:6px;font-size:13px;color:var(--ash)}
+.card .meta b{color:var(--ink);font-weight:600}
+.pills{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.pills li{font-size:13px;font-weight:500;padding:5px 12px;border-radius:999px;border:1px solid var(--hairline);color:var(--stone);background:var(--canvas)}
+.card.deep{background:var(--forest);border-color:transparent;color:var(--on-forest)}
+.card.deep p,.card.deep .meta{color:var(--on-forest-2)}
+.card.deep .meta b{color:var(--on-forest)}
+.facts{margin:4px 0 0;display:grid}
+.facts div{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:12px 0;border-top:1px solid rgba(238,240,228,.18)}
+.facts dt{font-size:13px;color:var(--on-forest-2)}
+.facts dd{margin:0;font-size:15px;line-height:1.5;font-weight:500;color:var(--on-forest)}
+.facts dd small{display:block;font-size:13px;font-weight:400;color:var(--on-forest-2);margin-top:2px}
+.big-type{font-size:72px;line-height:.95;font-weight:200;letter-spacing:-.05em;color:var(--on-forest);margin:14px 0 8px}
+.steps{list-style:none;margin:6px 0 0;padding:0;display:grid}
+.steps li{display:grid;grid-template-columns:28px 1fr;gap:10px;padding:11px 0;border-top:1px solid var(--hairline)}
+.steps li:last-child{border-bottom:1px solid var(--hairline)}
+.steps .n{font-size:13px;font-weight:600;color:var(--ash);font-variant-numeric:tabular-nums;padding-top:2px}
+.steps strong{display:block;font-size:15px;font-weight:600;letter-spacing:-.02em}
+.steps small{display:block;font-size:13px;line-height:1.45;color:var(--ash)}
+blockquote{margin:2px 0 0;padding:0 0 0 14px;border-left:1px solid var(--hairline);font-size:15px;line-height:1.65;color:var(--ink)}
+blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:13px;color:var(--ash)}
+.count{display:flex;align-items:baseline;gap:6px;margin:2px 0}
+.count strong{font-size:52px;line-height:1;font-weight:200;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.count span{font-size:15px;color:var(--stone)}
+
+/* 리추얼 */
+.rail{grid-auto-columns:64%}
+.prod{scroll-snap-align:start;min-width:0;display:flex;flex-direction:column;gap:6px}
+.prod .pimg{aspect-ratio:1/1.1;border-radius:var(--r-media);background:var(--sand);display:grid;place-items:center;overflow:hidden}
+.prod .pimg img{max-height:58%;width:auto;transition:transform 400ms var(--ease-out)}
+.prod .step{margin-top:10px;font-size:13px;font-weight:600;color:var(--ash)}
+.prod h3{margin:0;font-size:19px;font-weight:600;letter-spacing:-.025em}
+.prod p{margin:0;font-size:15px;line-height:1.6;color:var(--stone)}
+.caution{margin:16px 0 0;font-size:13px;line-height:1.55;color:var(--ash)}
+
+/* 머무는 곳 */
+.stay-img{width:100%;aspect-ratio:3/2;object-fit:cover}
+.stay-body{padding-top:22px}
+.stay-body h2{margin:0 0 12px;font-size:26px;line-height:1.32;font-weight:300;letter-spacing:-.03em}
+.stay-body h2 b{font-weight:600}
+.stay-body p{margin:0;color:var(--stone)}
+.partners{margin-top:20px}
+.partners h3{margin:0 0 10px;font-size:13px;font-weight:600;color:var(--ash)}
+
+/* 언론 띠 */
+.band{margin-top:64px;background:var(--band);color:var(--on-band);padding-block:48px 8px}
+.band .sec-head h2{color:var(--on-band)}
+.band .rail{grid-auto-columns:76%}
+.press{scroll-snap-align:start;min-width:0;text-decoration:none;border-radius:var(--r-card);overflow:hidden;background:var(--band-card);color:var(--ink);display:flex;flex-direction:column;
+  transition:transform 200ms var(--ease-out)}
+.press .pi{aspect-ratio:3/2;overflow:hidden;background:var(--sand)}
+.press .pi img{width:100%;height:100%;object-fit:cover;transition:transform 400ms var(--ease-out)}
+.press .pb{padding:16px 18px 18px;display:flex;flex-direction:column;gap:4px;flex:1}
+.press time{font-size:13px;color:var(--ash);font-variant-numeric:tabular-nums}
+.press strong{font-size:17px;line-height:1.42;font-weight:600;letter-spacing:-.02em}
+.press .src{margin-top:auto;padding-top:10px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--stone)}
+.press:active{transform:scale(.98)}
+.press.text .pb{padding-top:22px}
+.press.text strong{font-size:22px;font-weight:300;line-height:1.36;letter-spacing:-.03em;margin-top:6px}
+.more{list-style:none;margin:40px 0 0;padding:0;border-top:1px solid rgba(255,255,255,.16)}
+.more a{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:60px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.16);text-decoration:none;font-size:16px;font-weight:500;color:var(--on-band)}
+.more a small{display:block;font-size:13px;font-weight:400;color:var(--on-band-2)}
+.more svg{flex:none;transition:transform 200ms var(--ease-out)}
+.more a:focus-visible,.press:focus-visible{outline-color:var(--on-band)}
+.foot{padding-block:36px 24px;font-size:13px;color:var(--on-band-2);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.foot .wordmark{color:var(--on-band);font-size:18px}
+
+/* 하단 고정 DPP 버튼 */
+.cta-bar{position:fixed;left:0;right:0;bottom:0;z-index:25;padding-top:12px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));pointer-events:none}
+.cta-in{max-width:440px;margin:0 auto}
+.cta{pointer-events:auto;display:flex;align-items:center;justify-content:center;gap:10px;height:56px;border-radius:999px;background:var(--action);color:var(--on-action);
+  text-decoration:none;font-size:16px;font-weight:600;letter-spacing:-.01em;box-shadow:0 6px 20px rgba(16,40,28,.22);transition:transform 160ms var(--ease-out)}
+.cta:active{transform:scale(.97)}
+.cta:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:26;width:max-content;max-width:min(420px,calc(100% - 40px));
+  transform:translateX(-50%);padding:12px 16px;border-radius:16px;background:var(--ink);color:var(--canvas);font-size:14px;line-height:1.5;
+  transition:opacity 200ms var(--ease-out),transform 200ms var(--ease-out)}
+@starting-style{.toast{opacity:0;transform:translate(-50%,8px)}}
+
+
+/* 제작 이야기 카드, 제품 그리드 */
+.stage{font-size:13px;font-weight:600;color:var(--action)}
+.card.deep .stage{color:var(--on-forest-2)}
+.card .ph.white{background:#FFFFFF;border-bottom:1px solid var(--hairline)}
+.card .ph.white img{object-fit:contain;padding:12px}
+.grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:20px 12px}
+.pc{min-width:0;display:flex;flex-direction:column;gap:4px}
+.pc-img{aspect-ratio:1/1;border-radius:20px;border:1px solid var(--hairline);background:#FFFFFF;overflow:hidden;margin-bottom:8px}
+.pc-img img{width:100%;height:100%;object-fit:contain;transition:transform 400ms var(--ease-out)}
+.pc h3{margin:0;font-size:17px;font-weight:600;letter-spacing:-.02em}
+.pc p{margin:0;font-size:14px;line-height:1.5;color:var(--stone)}
+.band .partners{margin:36px 0 0}
+.band .partners h3{color:var(--on-band-2)}
+.band .pills li{background:transparent;border-color:rgba(241,245,239,.24);color:var(--on-band)}
+@media (hover:hover) and (pointer:fine){.pc:hover .pc-img img{transform:scale(1.03)}}
+.film{background:#FFFFFF}
+.film::after{content:none}
+.film h1{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.film .film-copy{justify-content:flex-end;padding-bottom:20px}
+.film.nofilm .still{animation:none}
+.film-ctrl{background:rgba(255,255,255,.88);border-color:rgba(25,59,42,.18);color:#193B2A}
+@media (hover:hover) and (pointer:fine){
+  .card:hover .ph img,.prod:hover .pimg img,.press:hover .pi img{transform:scale(1.03)}
+  .press:hover{transform:translateY(-2px)}
+  .arrows button:hover:not(:disabled){background:var(--sand)}
+  .more a:hover svg{transform:translate(2px,-2px)}
+  .film-ctrl:hover{background:rgba(12,28,20,.5)}
+}
+@media (prefers-reduced-motion: reduce){
+  .film.nofilm .still{animation:none}
+  *,*::before{transition-duration:0ms!important}
+}
+</style>
+
+<div class="app">
+  <header class="hdr gut">
+    <a class="wordmark" href="#top" aria-label="이든 처음으로"><img src="img/mark-blue.png" alt="">Idden</a>
+    <small>서스테이너블랩</small>
+  </header>
+
+  <!-- 1. 브랜드 필름: film/idden-film.mp4 (51초 음악 버전, 4:5). 자동재생은 무음, 소리 켜기 버튼으로 음악 재생 -->
+  <section class="film" id="top" aria-label="이든 브랜드 필름">
+    <video id="filmVideo" autoplay muted loop playsinline preload="auto" poster="img/film-poster.jpg">
+      <source src="film/idden-film.mp4" type="video/mp4">
+    </video>
+    <img class="still" src="img/film-poster.jpg" alt="서선미 대표와 아들이 여행 중 보트 위에서 웃는 모습">
+    <div class="film-copy gut">
+      <h1>Less Plastic.<br><b>More Trees.</b></h1>
+    </div>
+  </section>
+      <div class="film-bar gut">
+      <button class="film-ctrl film-sound" id="filmSound" type="button" aria-pressed="false" aria-label="소리 켜기">
+        <svg class="i-muted" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>
+        <svg class="i-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>
+        <span class="film-sound-label">소리 켜기</span>
+      </button>
+      <button class="film-ctrl" id="filmCtrl" type="button" aria-label="필름 일시정지">
+        <svg class="i-pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+        <svg class="i-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>
+      </button>
+      </div>
+
+  <!-- 2. 인트로 -->
+  <section class="intro gut">
+    <h2>K-웰니스 뷰티,<br><b>부산물에서 아름다움으로.</b></h2>
+    <p>이든은 농장에서 버려지는 부산물로 바디케어를 만듭니다. 업사이클 소재를 연구하는 서스테이너블랩의 브랜드입니다.</p>
+    <div class="scan">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M8 12h8"/></svg>
+      <span>지금 손에 든 제품의 원료와 성분, 포장 정보는 아래 버튼에서 확인할 수 있습니다.</span>
+    </div>
+  </section>
+
+  <!-- 3. 이렇게 만들어집니다 (스와이프) -->
+  <section class="sec" aria-roledescription="carousel" aria-label="이든 제품이 만들어지는 과정">
+    <div class="sec-head gut">
+      <h2>버려지던 부산물이<br><b>제품이 되기까지</b></h2>
+      <div class="arrows">
+        <button type="button" id="prev" aria-label="이전 이야기"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <button type="button" id="next" aria-label="다음 이야기"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+      </div>
+    </div>
+    <div class="dots" id="dots" role="group" aria-label="이야기 선택"></div>
+    <div class="track" id="track" tabindex="0" aria-label="제작 과정, 좌우로 넘겨 보세요">
+
+      <article class="card" aria-roledescription="slide" aria-label="7개 중 1번째">
+        <div class="ph"><img src="img/sun-wonjae.jpg" alt="서선미 대표와 아들 원재가 보트 위에서 웃는 모습" loading="lazy"></div>
+        <div class="body">
+          <span class="stage">시작</span>
+          <h3>아름다움을 더할수록, 플라스틱이 남았습니다</h3>
+          <p>어린 아들 원재와 여행하며 머문 자리마다 남겨진 일회용 플라스틱을 보았습니다. 쓰고 나면 쓰레기가 남는 화장품 대신, 쓸수록 자원이 되살아나는 제품을 만들기로 했습니다.</p>
+          <div class="meta"><b>서선미</b> 이든과 서스테이너블랩 창업자</div>
+        </div>
+      </article>
+
+      <article class="card" aria-roledescription="slide" aria-label="7개 중 2번째">
+        <div class="ph"><img src="img/hb02-apple.jpg" alt="풋사과 위에 놓인 이든 HB02 향수병과 은방울꽃" loading="lazy"></div>
+        <div class="body">
+          <span class="stage">원료 1. 사과</span>
+          <h3>주스를 짜고 남은 사과박</h3>
+          <p>사과 주스를 만들고 남은 사과박을 모아 HB02 얼스바의 원료로 씁니다. 같은 사과에서 풋사과와 화이트 플라워 향의 애플 베일이 태어났습니다.</p>
+        </div>
+      </article>
+
+      <article class="card deep" aria-roledescription="slide" aria-label="7개 중 3번째">
+        <div class="body">
+          <span class="stage">원료 2. 토마토</span>
+          <h3>발달장애 청년들이 기른 토마토의 부산물</h3>
+          <p>경기도 여주의 스마트팜에서 나온 토마토 부산물로 HB03 라인을 만듭니다.</p>
+          <dl class="facts">
+            <div><dt>농장</dt><dd>푸르메소셜팜<small>경기도 여주</small></dd></div>
+            <div><dt>원료</dt><dd>토마토 부산물<small>토마토박가루, 토마토추출물, 토마토 줄기 부산물 추출물</small></dd></div>
+            <div><dt>제품</dt><dd>HB03 Bitter Summer<small>얼스바, 바디 로션, 에이치 프래그런스</small></dd></div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="card" aria-roledescription="slide" aria-label="7개 중 4번째">
+        <div class="body">
+          <span class="stage">업사이클링</span>
+          <h3>부산물에서 제품까지 여섯 단계</h3>
+          <ol class="steps">
+            <li><span class="n">1</span><span><strong>지역 원료 조달</strong><small>지역 농장과 함께 원료를 찾습니다</small></span></li>
+            <li><span class="n">2</span><span><strong>부산물 수거</strong><small>업사이클링할 가치가 있는 부산물을 모읍니다</small></span></li>
+            <li><span class="n">3</span><span><strong>업사이클링</strong><small>부산물 속 쓸모 있는 성분을 찾아냅니다</small></span></li>
+            <li><span class="n">4</span><span><strong>뷰티 포뮬러</strong><small>업사이클 원료로 처방을 만듭니다</small></span></li>
+            <li><span class="n">5</span><span><strong>뷰티 제품</strong><small>정성껏 제품으로 완성합니다</small></span></li>
+            <li><span class="n">6</span><span><strong>자연으로</strong><small>쓰고 난 뒤 다시 자연으로 돌아갑니다</small></span></li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="card" aria-roledescription="slide" aria-label="7개 중 5번째">
+        <div class="ph white"><img src="img/p-set.jpg" alt="이든 얼스바, 고체 치약, 대나무 칫솔" loading="lazy"></div>
+        <div class="body">
+          <span class="stage">제형</span>
+          <h3>고체로 만들어 용기를 없앴습니다</h3>
+          <p>얼스바는 샴푸, 린스, 바디워시 구분 없이 하나로 쓰는 고체 비누입니다. 맥주 효모 찌꺼기 같은 업사이클 원료를 담았고, 대나무 칫솔은 칫솔모까지 식물성으로 만들었습니다.</p>
+        </div>
+      </article>
+
+      <article class="card" aria-roledescription="slide" aria-label="7개 중 6번째">
+        <div class="ph white"><img src="img/p-kit.jpg" alt="종이 상자에 담긴 이든 스타터 키트" loading="lazy"></div>
+        <div class="body">
+          <span class="stage">포장</span>
+          <h3>플라스틱 대신 종이 상자에</h3>
+          <p>스타터 키트는 종이 상자와 대나무 케이스, 유리병에 담았습니다. 받는 순간부터 버릴 플라스틱이 적도록 포장을 설계했습니다.</p>
+        </div>
+      </article>
+
+      <article class="card" aria-roledescription="slide" aria-label="7개 중 7번째">
+        <div class="ph"><img src="img/borneo.jpg" alt="보르네오 열대우림 사이로 흐르는 강" loading="lazy"></div>
+        <div class="body">
+          <span class="stage">나무로</span>
+          <h3>얼스바 하나, 나무 한 그루</h3>
+          <div class="count"><strong>10,000</strong><span>그루를 심었습니다</span></div>
+          <p>판매는 보르네오 탄중푸팅 국립공원의 나무 심기로 이어집니다. 부산물 연구는 탄소를 저장하는 소재 리트리(Re:tree)로 넓어지고 있습니다.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- 4. 이렇게 만든 제품 -->
+  <section class="sec gut" aria-labelledby="prod-h">
+    <div class="sec-head"><h2 id="prod-h">이렇게 만든<br><b>이든의 제품</b></h2></div>
+    <ul class="grid">
+      <li class="pc"><div class="pc-img"><img src="img/p-bar.jpg" alt="이든 얼스바" loading="lazy"></div><h3>얼스바</h3><p>머리부터 발끝까지 하나로 쓰는 고체 비누</p></li>
+      <li class="pc"><div class="pc-img"><img src="img/p-tabs.jpg" alt="이든 어스탭 고체 치약" loading="lazy"></div><h3>고체 치약</h3><p>튜브 대신 유리병에 담은 알약형 치약</p></li>
+      <li class="pc"><div class="pc-img"><img src="img/p-brush.jpg" alt="이든 대나무 칫솔" loading="lazy"></div><h3>대나무 칫솔</h3><p>칫솔모까지 식물성으로 만든 칫솔</p></li>
+      <li class="pc"><div class="pc-img"><img src="img/p-fragrance2.jpg" alt="이든 에이치 프래그런스" loading="lazy"></div><h3>에이치 프래그런스</h3><p>옷과 머무는 공간에 쓰는 이든의 향</p></li>
+    </ul>
+    <p class="caution">에이치 프래그런스는 의류와 실내 공간용입니다. 사람이나 동물에게 직접 분사하지 마십시오.</p>
+  </section>
+
+  <!-- 6. 언론 띠 + 더 알아보기 + 푸터 -->
+  <div class="band">
+    <section aria-labelledby="press-h">
+      <div class="sec-head gut"><h2 id="press-h">언론에 소개된<br><b>이든의 이야기</b></h2></div>
+      <div class="track rail">
+        <a class="press" href="https://www.asiae.co.kr/article/2024110414462409520" target="_blank" rel="noopener">
+          <div class="pi"><img src="img/press-france.jpg" alt="K-EXPO 프랑스 이든 부스의 서선미 대표" loading="lazy"></div>
+          <div class="pb"><time datetime="2024-11-04">2024년 11월 4일</time><strong>이든, 프랑스에 닿다</strong><span class="src">아시아경제<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div>
+        </a>
+        <a class="press" href="https://view.asiae.co.kr/en/article/2024120416490293509" target="_blank" rel="noopener">
+          <div class="pi"><img src="img/press-silicon.jpg" alt="실리콘밸리 서밋 무대에서 발표하는 서선미 대표" loading="lazy"></div>
+          <div class="pb"><time datetime="2024-12-04">2024년 12월 4일</time><strong>실리콘밸리 무대에서</strong><span class="src">아시아경제 영문판<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div>
+        </a>
+        <a class="press" href="https://view.asiae.co.kr/en/article/2025012314061598421" target="_blank" rel="noopener">
+          <div class="pi"><img src="img/press-founder.jpg" alt="인터뷰 중인 서선미 대표" loading="lazy"></div>
+          <div class="pb"><time datetime="2025-01-24">2025년 1월 24일</time><strong>이야기 뒤의 창업자</strong><span class="src">아시아경제 영문판<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div>
+        </a>
+        <a class="press text" href="https://blog.naver.com/iloveddp/223660050399" target="_blank" rel="noopener">
+          <div class="pb"><time>D-Magazine Vol.68</time><strong>얼스바 하나, 나무 한 그루, 일거리 하나</strong><span class="src">DDP 디자인스토어 인터뷰<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div>
+        </a>
+        <a class="press text" href="https://www.mt.co.kr/future/2026/02/13/2026020908001747891" target="_blank" rel="noopener">
+          <div class="pb"><time datetime="2026-02-13">2026년 2월 13일</time><strong>탄소 저장 소재를 만드는 뷰티 창업자</strong><span class="src">머니투데이<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div>
+        </a>
+        <a class="press text" href="https://www.mt.co.kr/future/2026/03/13/2026031316405141423" target="_blank" rel="noopener">
+          <div class="pb"><time datetime="2026-03-13">2026년 3월 13일</time><strong>업사이클 K-뷰티, 일본으로</strong><span class="src">머니투데이<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span></div>
+        </a>
+      </div>
+    </section>
+
+    <nav class="gut" aria-label="이든 더 알아보기">
+      <ul class="more">
+        <li><a href="https://idden.co/" target="_blank" rel="noopener"><span>서스테이너블랩 소개<small>idden.co 공식 홈페이지</small></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a></li>
+        <li><a href="https://www.instagram.com/idden_forest" target="_blank" rel="noopener"><span>인스타그램<small>@idden_forest</small></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a></li>
+      </ul>
+    </nav>
+
+    <footer class="foot gut">
+      <span class="wordmark"><img src="img/mark-white.png" alt="">Idden</span>
+      <span>© 2026 Sustainable LAB</span>
+    </footer>
+  </div>
+</div>
+
+<div class="cta-bar gut">
+  <div class="cta-in">
+    <a class="cta" id="dppLink" href="#dpp">
+      이 제품 정보 확인하기
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* 브랜드 필름 */
+  var film=document.querySelector('.film'), v=document.getElementById('filmVideo'), ctrl=document.getElementById('filmCtrl');
+  function noFilm(){film.classList.add('nofilm');}
+  v.querySelector('source').addEventListener('error',noFilm); v.addEventListener('error',noFilm);
+  function setPaused(p){film.classList.toggle('paused',p); ctrl.setAttribute('aria-label',p?'필름 재생':'필름 일시정지'); if(p) v.pause(); else {var pr=v.play(); if(pr&&pr.catch) pr.catch(function(){});}}
+  if(reduce){v.removeAttribute('autoplay'); setPaused(true);}
+  ctrl.addEventListener('click',function(){setPaused(!film.classList.contains('paused'))});
+  /* 소리 켜기: 사용자가 누른 뒤에만 음악 재생(모바일 자동재생 정책) */
+  var snd=document.getElementById('filmSound'), sndLabel=snd.querySelector('.film-sound-label');
+  snd.addEventListener('click',function(){
+    var on=v.muted; v.muted=!on; film.classList.toggle('sound-on',on);
+    snd.setAttribute('aria-pressed',on?'true':'false'); snd.setAttribute('aria-label',on?'소리 끄기':'소리 켜기'); sndLabel.textContent=on?'소리 끄기':'소리 켜기';
+    if(on&&film.classList.contains('paused')) setPaused(false);
+  });
+
+  /* 스토리 캐러셀 */
+  var track=document.getElementById('track'), dotsEl=document.getElementById('dots');
+  var slides=[].slice.call(track.children), prev=document.getElementById('prev'), next=document.getElementById('next'), cur=-1;
+  slides.forEach(function(s,i){
+    var b=document.createElement('button'); b.type='button'; b.setAttribute('aria-label',(i+1)+'번째 이야기 보기');
+    b.addEventListener('click',function(){go(i)}); dotsEl.appendChild(b);
+  });
+  var dots=[].slice.call(dotsEl.children);
+  /* 버튼, 점, 키보드로 넘길 때: 스냅을 잠시 끄고 천천히 출발해 천천히 멈추는 곡선으로 직접 이동(560ms).
+     손가락 스와이프는 브라우저 기본 스냅을 그대로 씀. 이동 중 손을 대면 즉시 멈추고 사용자에게 넘김 */
+  var anim=0, animating=false;
+  function ease(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;}
+  function stopAnim(){if(anim){cancelAnimationFrame(anim);anim=0;} if(animating){animating=false; track.style.scrollSnapType='';}}
+  function go(i){
+    i=Math.max(0,Math.min(slides.length-1,i));
+    var to=Math.min(slides[i].offsetLeft-slides[0].offsetLeft, track.scrollWidth-track.clientWidth), from=track.scrollLeft;
+    mark(i); stopAnim();
+    if(reduce||Math.abs(to-from)<2){track.scrollLeft=to; return;}
+    var dur=Math.min(720, 480+Math.abs(to-from)*0.12), t0=null;
+    animating=true; track.style.scrollSnapType='none';
+    function step(ts){
+      if(t0===null) t0=ts;
+      var p=Math.min(1,(ts-t0)/dur);
+      track.scrollLeft=from+(to-from)*ease(p);
+      if(p<1){anim=requestAnimationFrame(step);} else {anim=0; animating=false; requestAnimationFrame(function(){track.style.scrollSnapType='';});}
+    }
+    anim=requestAnimationFrame(step);
+  }
+  ['pointerdown','wheel','touchstart'].forEach(function(ev){track.addEventListener(ev,stopAnim,{passive:true});});
+  function mark(i){if(i===cur)return; cur=i; dots.forEach(function(d,j){d.setAttribute('aria-current',j===i?'true':'false')}); prev.disabled=i===0; next.disabled=i===slides.length-1;}
+  prev.addEventListener('click',function(){go(cur-1)}); next.addEventListener('click',function(){go(cur+1)});
+  function nearest(){var x=track.scrollLeft, best=0, bd=1e9; slides.forEach(function(s,i){var d=Math.abs(s.offsetLeft-slides[0].offsetLeft-x); if(d<bd){bd=d;best=i}});
+    if(track.scrollLeft+track.clientWidth>=track.scrollWidth-4) best=slides.length-1; return best;}
+  var raf=0; track.addEventListener('scroll',function(){if(raf||animating)return; raf=requestAnimationFrame(function(){raf=0; if(!animating) mark(nearest());});},{passive:true});
+  track.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){e.preventDefault();go(cur+1)} if(e.key==='ArrowLeft'){e.preventDefault();go(cur-1)}});
+  mark(0);
+
+  /* DPP 연결: 실서비스에서는 QR 주소의 제품 ID(pid)로 해당 제품 DPP 화면을 엶 */
+  var DPP_BASE='', pid=null;
+  try{pid=new URLSearchParams(location.search).get('pid')}catch(e){}
+  var link=document.getElementById('dppLink'), toast=document.getElementById('toast'), tt;
+  if(DPP_BASE&&pid){link.href=DPP_BASE+encodeURIComponent(pid);}
+  else link.addEventListener('click',function(e){e.preventDefault(); toast.hidden=true; void toast.offsetWidth;
+    toast.textContent='시안 화면입니다. 실제 서비스에서는 QR을 찍은 제품의 DPP 화면이 열립니다.'; toast.hidden=false;
+    clearTimeout(tt); tt=setTimeout(function(){toast.hidden=true},2800);});
+})();
+</script>

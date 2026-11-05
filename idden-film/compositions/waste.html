@@ -1,0 +1,49 @@
+<template>
+  <style>
+    @font-face { font-family: "Outfit"; src: url("assets/fonts/Outfit.woff2") format("woff2"); font-weight: 100 900; }
+    @font-face { font-family: "Pretendard"; src: url("assets/fonts/PretendardVariable.woff2") format("woff2"); font-weight: 100 900; }
+    #root { position:absolute; inset:0; overflow:hidden; background:#FFFFFF; font-family:"Pretendard", sans-serif; }
+    .line { position:absolute; left:108px; right:108px; top:150px; color:#193B2A; font-size:76px; line-height:1.24; font-weight:600; letter-spacing:-0.04em; word-break:keep-all; }
+    .line span { display:inline-block; }
+    .line .l1 { color:#66716A; }
+    .line.on-dark { color:#FFFFFF; }
+    .line.on-dark .l1 { color:#C9D8CD; }
+    .src { position:absolute; left:108px; right:108px; bottom:150px; color:#66716A; font-size:36px; line-height:1.3; font-weight:500; letter-spacing:-0.02em; }
+    .obj img { display:block; width:100%; height:auto; filter:drop-shadow(0 20px 30px rgba(25,59,42,.16)); }
+    .obj { position:absolute; }
+
+    #waste-num { position:absolute; left:108px; top:500px; color:#193B2A; font-family:"Outfit", sans-serif; font-size:150px; line-height:1; font-weight:500; letter-spacing:-0.04em; font-variant-numeric:tabular-nums; white-space:nowrap; }
+    #waste-num small { font-family:"Pretendard", sans-serif; font-size:72px; font-weight:600; margin-left:10px; letter-spacing:-0.03em; }
+    #waste-sub { position:absolute; left:108px; right:108px; top:680px; color:#66716A; font-size:48px; line-height:1.35; font-weight:600; letter-spacing:-0.03em; }
+    .wb { position:absolute; left:108px; right:108px; height:120px; }
+    #waste-b1 { top:860px; } #waste-b2 { top:1000px; }
+    .wb span { display:block; color:#66716A; font-size:38px; font-weight:600; letter-spacing:-0.02em; margin-bottom:12px; }
+    .wb i { display:block; height:40px; border-radius:20px; background:#193B2A; transform-origin:0% 50%; }
+    #waste-b1 i { width:44%; background:#B9C7BD; } #waste-b2 i { width:100%; }
+  </style>
+  <div id="root" data-composition-id="waste" data-width="1080" data-height="1350">
+    <p id="waste-line" class="line clip" data-start="0" data-duration="5.5" data-track-index="2" style="top:150px"><span class="l1" id="waste-l1">한 해 버려지는</span><br><span id="waste-l2">플라스틱 쓰레기</span></p>
+    <div id="waste-num" class="clip" data-start="0" data-duration="5.5" data-track-index="3"><span id="waste-n">0</span><small>톤</small></div>
+    <p id="waste-sub" class="clip" data-start="0" data-duration="5.5" data-track-index="4">2000년보다 두 배 넘게 늘었습니다</p>
+    <div class="wb clip" id="waste-b1" data-start="0" data-duration="5.5" data-track-index="6"><span>2000년</span><i id="waste-f1"></i></div>
+    <div class="wb clip" id="waste-b2" data-start="0" data-duration="5.5" data-track-index="7"><span>2019년</span><i id="waste-f2"></i></div>
+    <p class="src clip" id="waste-src" data-start="0" data-duration="5.5" data-track-index="5" style="bottom:100px">OECD 글로벌 플라스틱 전망, 2019년 기준</p>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#waste-l1", { opacity: 0 }, { opacity: 1, duration: 0.22, ease: "power2.out" }, 0.25);
+    tl.fromTo("#waste-l2", { opacity: 0, color: "#C9D0CB" }, { opacity: 1, color: "#193B2A", duration: 0.24, ease: "power2.out" }, 0.37);
+    const c = { v: 0 }; const n = document.querySelector("#waste-n");
+    tl.fromTo("#waste-num", { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "power2.out" }, 0.7);
+    tl.fromTo(c, { v: 0 }, { v: 353000000, duration: 1.6, ease: "power3.out", onUpdate: () => { n.textContent = (Math.round(c.v / 1000000) * 1000000).toLocaleString("en-US"); } }, 0.7);
+    tl.fromTo("#waste-b1", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power2.out" }, 0.7);
+    tl.fromTo("#waste-f1", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power3.out" }, 0.75);
+    tl.fromTo("#waste-b2", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power2.out" }, 1.0);
+    tl.fromTo("#waste-f2", { scaleX: 0 }, { scaleX: 1, duration: 1.3, ease: "power3.out" }, 1.05);
+    tl.fromTo("#waste-sub", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 2.1);
+    tl.fromTo("#waste-src", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 2.3);
+    tl.to(["#waste-line", "#waste-num", "#waste-sub", "#waste-b1", "#waste-b2", "#waste-src"], { opacity: 0, filter: "blur(10px)", duration: 0.2, ease: "power3.in", stagger: 0.03 }, 5.22);
+
+    window.__timelines["waste"] = tl;
+  </script>
+</template>

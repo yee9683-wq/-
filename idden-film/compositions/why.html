@@ -1,0 +1,39 @@
+<template>
+  <style>
+    @font-face { font-family: "Outfit"; src: url("assets/fonts/Outfit.woff2") format("woff2"); font-weight: 100 900; }
+    @font-face { font-family: "Pretendard"; src: url("assets/fonts/PretendardVariable.woff2") format("woff2"); font-weight: 100 900; }
+    #root { position:absolute; inset:0; overflow:hidden; background:#FFFFFF; font-family:"Pretendard", sans-serif; }
+    .line { position:absolute; left:108px; right:108px; top:150px; color:#193B2A; font-size:76px; line-height:1.24; font-weight:600; letter-spacing:-0.04em; word-break:keep-all; }
+    .line span { display:inline-block; }
+    .line .l1 { color:#66716A; }
+    .line.on-dark { color:#FFFFFF; }
+    .line.on-dark .l1 { color:#C9D8CD; }
+    .src { position:absolute; left:108px; right:108px; bottom:150px; color:#66716A; font-size:36px; line-height:1.3; font-weight:500; letter-spacing:-0.02em; }
+    .obj img { display:block; width:100%; height:auto; filter:drop-shadow(0 20px 30px rgba(25,59,42,.16)); }
+    .obj { position:absolute; }
+
+    #why-cam { position:absolute; inset:0; }
+    #why-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 30%; }
+    #why-scrim { position:absolute; left:0; right:0; bottom:0; height:58%; background:linear-gradient(180deg, rgba(12,28,20,0), rgba(12,28,20,.55) 50%, rgba(12,28,20,.82)); }
+    #why-wipe, #why-white { position:absolute; inset:0; }
+    #why-wipe { background:#193B2A; } #why-white { background:#FFFFFF; }
+  </style>
+  <div id="root" data-composition-id="why" data-width="1080" data-height="1350">
+    <div id="why-cam"><img id="why-img" src="assets/img/sun.jpg" alt="서선미 대표와 아들이 여행 중 보트 위에서 웃는 모습"></div>
+    <div id="why-scrim"></div>
+    <p id="why-line" class="line on-dark clip" data-start="0" data-duration="5.0" data-track-index="2" style="top:1000px"><span class="l1" id="why-l1">아이와 떠난 여행지마다</span><br><span id="why-l2">일회용 플라스틱이 남았습니다</span></p>
+    <div id="why-white" class="clip" data-start="0" data-duration="5.0" data-track-index="3" data-layout-ignore></div>
+    <div id="why-wipe" class="clip" data-start="0" data-duration="0.7" data-track-index="4" data-layout-ignore></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#why-wipe", { clipPath: "inset(0% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 100% 0%)", duration: 0.55, ease: "power3.inOut" }, 0.05);
+    tl.fromTo("#why-cam", { scale: 1.1 }, { scale: 1.0, duration: 5, ease: "power2.out" }, 0);
+    tl.fromTo("#why-l1", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 0.6);
+    tl.fromTo("#why-l2", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 0.72);
+    tl.to(["#why-line"], { opacity: 0, filter: "blur(10px)", duration: 0.2, ease: "power3.in", stagger: 0.03 }, 4.45);
+    tl.fromTo("#why-white", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power2.in" }, 4.72);
+
+    window.__timelines["why"] = tl;
+  </script>
+</template>

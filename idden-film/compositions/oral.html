@@ -1,0 +1,34 @@
+<template>
+  <style>
+    @font-face { font-family: "Outfit"; src: url("assets/fonts/Outfit.woff2") format("woff2"); font-weight: 100 900; }
+    @font-face { font-family: "Pretendard"; src: url("assets/fonts/PretendardVariable.woff2") format("woff2"); font-weight: 100 900; }
+    #root { position:absolute; inset:0; overflow:hidden; background:#FFFFFF; font-family:"Pretendard", sans-serif; }
+    .line { position:absolute; left:108px; right:108px; top:150px; color:#193B2A; font-size:76px; line-height:1.24; font-weight:600; letter-spacing:-0.04em; word-break:keep-all; }
+    .line span { display:inline-block; }
+    .line .l1 { color:#66716A; }
+    .line.on-dark { color:#FFFFFF; }
+    .line.on-dark .l1 { color:#C9D8CD; }
+    .src { position:absolute; left:108px; right:108px; bottom:150px; color:#66716A; font-size:36px; line-height:1.3; font-weight:500; letter-spacing:-0.02em; }
+    .obj img { display:block; width:100%; height:auto; filter:drop-shadow(0 20px 30px rgba(25,59,42,.16)); }
+    .obj { position:absolute; }
+
+    #oral-tabs { left:200px; top:480px; width:345px; }
+    #oral-brush { left:720px; top:440px; width:66px; }
+  </style>
+  <div id="root" data-composition-id="oral" data-width="1080" data-height="1350">
+    <p id="oral-line" class="line clip" data-start="0" data-duration="3.2" data-track-index="2" style="top:150px"><span class="l1" id="oral-l1">튜브 대신 유리병,</span><br><span id="oral-l2">칫솔모까지 식물성으로</span></p>
+    <div id="oral-tabs" class="obj"><img src="assets/img/tabs-cut.png" alt="이든 고체 치약"></div>
+    <div id="oral-brush" class="obj"><img src="assets/img/brush-cut.png" alt="이든 대나무 칫솔"></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#oral-tabs", { x: -80, opacity: 0, filter: "blur(12px)" }, { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.7, ease: "expo.out" }, 0.05);
+    tl.fromTo("#oral-brush", { x: 80, opacity: 0, filter: "blur(12px)" }, { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.7, ease: "expo.out" }, 0.25);
+    tl.to(["#oral-tabs", "#oral-brush"], { y: -12, duration: 2.4, ease: "power1.inOut" }, 0.6);
+    tl.fromTo("#oral-l1", { opacity: 0 }, { opacity: 1, duration: 0.22, ease: "power2.out" }, 0.25);
+    tl.fromTo("#oral-l2", { opacity: 0, color: "#C9D0CB" }, { opacity: 1, color: "#193B2A", duration: 0.24, ease: "power2.out" }, 0.37);
+    tl.to(["#oral-line", "#oral-tabs", "#oral-brush"], { opacity: 0, filter: "blur(10px)", duration: 0.2, ease: "power3.in", stagger: 0.03 }, 2.92);
+
+    window.__timelines["oral"] = tl;
+  </script>
+</template>

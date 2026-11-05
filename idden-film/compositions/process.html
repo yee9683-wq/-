@@ -1,0 +1,49 @@
+<template>
+  <style>
+    @font-face { font-family: "Outfit"; src: url("assets/fonts/Outfit.woff2") format("woff2"); font-weight: 100 900; }
+    @font-face { font-family: "Pretendard"; src: url("assets/fonts/PretendardVariable.woff2") format("woff2"); font-weight: 100 900; }
+    #root { position:absolute; inset:0; overflow:hidden; background:#FFFFFF; font-family:"Pretendard", sans-serif; }
+    .line { position:absolute; left:108px; right:108px; top:150px; color:#193B2A; font-size:76px; line-height:1.24; font-weight:600; letter-spacing:-0.04em; word-break:keep-all; }
+    .line span { display:inline-block; }
+    .line .l1 { color:#66716A; }
+    .line.on-dark { color:#FFFFFF; }
+    .line.on-dark .l1 { color:#C9D8CD; }
+    .src { position:absolute; left:108px; right:108px; bottom:150px; color:#66716A; font-size:36px; line-height:1.3; font-weight:500; letter-spacing:-0.02em; }
+    .obj img { display:block; width:100%; height:auto; filter:drop-shadow(0 20px 30px rgba(25,59,42,.16)); }
+    .obj { position:absolute; }
+
+    .pr-row { position:absolute; left:108px; right:108px; height:200px; display:flex; align-items:center; gap:44px; }
+    #process-r1 { top:430px; } #process-r2 { top:680px; } #process-r3 { top:930px; }
+    .pr-node { flex:none; width:180px; height:180px; border-radius:50%; background:#EEF0E9; display:grid; place-items:center; overflow:hidden; }
+    .pr-node img { max-width:70%; max-height:76%; width:auto; height:auto; }
+    #process-r2 .pr-node { background:#193B2A; }
+    #process-r2 .pr-node img { max-width:46%; }
+    .pr-text strong { display:block; color:#193B2A; font-size:54px; line-height:1.2; font-weight:600; letter-spacing:-0.035em; }
+    .pr-text small { display:block; margin-top:6px; color:#66716A; font-size:38px; line-height:1.3; font-weight:500; letter-spacing:-0.03em; }
+    #process-rail { position:absolute; left:197px; top:610px; width:2px; height:500px; background:#193B2A; transform-origin:50% 0%; }
+    #process-dot { position:absolute; left:189px; top:600px; width:18px; height:18px; border-radius:50%; background:#193B2A; }
+  </style>
+  <div id="root" data-composition-id="process" data-width="1080" data-height="1350">
+    <p id="process-line" class="line clip" data-start="0" data-duration="4.0" data-track-index="2" style="top:150px"><span class="l1" id="process-l1">쓸모 있는 성분을 찾아</span><br><span id="process-l2">원료로 되살립니다</span></p>
+    <div id="process-rail" data-layout-ignore></div>
+    <div id="process-dot" data-layout-ignore></div>
+    <div id="process-r1" class="pr-row clip" data-start="0" data-duration="4.0" data-track-index="3"><div class="pr-node"><img src="assets/img/apple-only.png" alt="사과"></div><div class="pr-text"><strong>농장 부산물</strong><small>사과박, 토마토 부산물</small></div></div>
+    <div id="process-r2" class="pr-row clip" data-start="0" data-duration="4.0" data-track-index="4"><div class="pr-node"><img src="assets/img/mark-white.png" alt="이든 나무 표시"></div><div class="pr-text"><strong>업사이클 원료</strong><small>쓸모 있는 성분을 추려냄</small></div></div>
+    <div id="process-r3" class="pr-row clip" data-start="0" data-duration="4.0" data-track-index="5"><div class="pr-node"><img src="assets/img/bar-white-cut.png" alt="이든 얼스바"></div><div class="pr-text"><strong>뷰티 제품</strong><small>얼스바, 바디 로션, 향</small></div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#process-l1", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 0.1);
+    tl.fromTo("#process-l2", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 0.22);
+    tl.fromTo("#process-rail", { scaleY: 0 }, { scaleY: 1, duration: 1.2, ease: "power2.inOut" }, 0.35);
+    tl.fromTo("#process-dot", { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "power2.out" }, 0.4);
+    tl.fromTo("#process-dot", { y: 0 }, { y: 500, duration: 1.5, ease: "power1.inOut" }, 0.4);
+    tl.to("#process-dot", { opacity: 0, duration: 0.15, ease: "power2.in" }, 1.95);
+    tl.fromTo("#process-r1", { opacity: 0, x: 24, filter: "blur(8px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, 0.3);
+    tl.fromTo("#process-r2", { opacity: 0, x: 24, filter: "blur(8px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, 0.75);
+    tl.fromTo("#process-r3", { opacity: 0, x: 24, filter: "blur(8px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }, 1.2);
+    tl.to(["#process-line", "#process-r1", "#process-r2", "#process-r3", "#process-rail"], { opacity: 0, filter: "blur(10px)", duration: 0.2, ease: "power3.in", stagger: 0.03 }, 3.72);
+
+    window.__timelines["process"] = tl;
+  </script>
+</template>

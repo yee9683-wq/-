@@ -1,0 +1,40 @@
+<template>
+  <style>
+    @font-face { font-family: "Outfit"; src: url("assets/fonts/Outfit.woff2") format("woff2"); font-weight: 100 900; }
+    @font-face { font-family: "Pretendard"; src: url("assets/fonts/PretendardVariable.woff2") format("woff2"); font-weight: 100 900; }
+    #root { position:absolute; inset:0; overflow:hidden; background:#FFFFFF; font-family:"Pretendard", sans-serif; }
+    .line { position:absolute; left:108px; right:108px; top:150px; color:#193B2A; font-size:76px; line-height:1.24; font-weight:600; letter-spacing:-0.04em; word-break:keep-all; }
+    .line span { display:inline-block; }
+    .line .l1 { color:#66716A; }
+    .line.on-dark { color:#FFFFFF; }
+    .line.on-dark .l1 { color:#C9D8CD; }
+    .src { position:absolute; left:108px; right:108px; bottom:150px; color:#66716A; font-size:36px; line-height:1.3; font-weight:500; letter-spacing:-0.02em; }
+    .obj img { display:block; width:100%; height:auto; filter:drop-shadow(0 20px 30px rgba(25,59,42,.16)); }
+    .obj { position:absolute; }
+
+    #recycle-grid { position:absolute; left:108px; top:450px; width:620px; display:grid; grid-template-columns:repeat(10, 44px); gap:20px; }
+    #recycle-grid .dot { display:block; width:44px; height:44px; border-radius:50%; background:#DCE3DD; }
+    #recycle-big { position:absolute; right:108px; top:460px; color:#193B2A; font-family:"Outfit", sans-serif; font-size:170px; line-height:1; font-weight:500; letter-spacing:-0.05em; }
+    #recycle-sub { position:absolute; left:108px; right:108px; top:1110px; color:#66716A; font-size:44px; line-height:1.35; font-weight:600; letter-spacing:-0.03em; }
+  </style>
+  <div id="root" data-composition-id="recycle" data-width="1080" data-height="1350">
+    <p id="recycle-line" class="line clip" data-start="0" data-duration="5.0" data-track-index="2" style="top:150px"><span class="l1" id="recycle-l1">그중 다시 쓰이는 건</span><br><span id="recycle-l2">9%뿐입니다</span></p>
+    <div id="recycle-grid" data-layout-ignore><i class="dot g"></i><i class="dot g"></i><i class="dot g"></i><i class="dot g"></i><i class="dot g"></i><i class="dot g"></i><i class="dot g"></i><i class="dot g"></i><i class="dot g"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i></div>
+    <div id="recycle-big" class="clip" data-start="0" data-duration="5.0" data-track-index="3">9%</div>
+    <p id="recycle-sub" class="clip" data-start="0" data-duration="5.0" data-track-index="4">나머지는 묻히거나 태워집니다</p>
+    <p class="src clip" id="recycle-src" data-start="0" data-duration="5.0" data-track-index="5" style="bottom:110px">OECD 글로벌 플라스틱 전망, 2019년 기준</p>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#recycle-l1", { opacity: 0 }, { opacity: 1, duration: 0.22, ease: "power2.out" }, 0.15);
+    tl.fromTo("#recycle-l2", { opacity: 0, color: "#C9D0CB" }, { opacity: 1, color: "#193B2A", duration: 0.24, ease: "power2.out" }, 0.27);
+    tl.fromTo("#recycle-grid .dot", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.3, ease: "expo.out", stagger: 0.006 }, 0.45);
+    tl.fromTo("#recycle-grid .dot.g", { backgroundColor: "#DCE3DD" }, { backgroundColor: "#193B2A", duration: 0.2, ease: "power2.out", stagger: 0.07 }, 1.45);
+    tl.fromTo("#recycle-big", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.25, ease: "power4.out" }, 1.9);
+    tl.fromTo("#recycle-sub", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 2.2);
+    tl.fromTo("#recycle-src", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 2.3);
+    tl.to(["#recycle-line", "#recycle-grid", "#recycle-big", "#recycle-sub", "#recycle-src"], { opacity: 0, filter: "blur(10px)", duration: 0.2, ease: "power3.in", stagger: 0.03 }, 4.72);
+
+    window.__timelines["recycle"] = tl;
+  </script>
+</template>

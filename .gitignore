@@ -1,0 +1,21 @@
+# 원본 다운로드 자료(biosite, idden.co 원본 이미지)
+/assets/
+# 작업 중간 산출물
+/build/film-v1/
+/build/film-v2/
+/build/film-v3/
+/build/music-candidates/
+/build/font/chars.txt
+/build/font/sub.woff2
+# 테스트 실행물
+/test/node_modules/
+/test/shots/
+/test/result.json
+# HyperFrames 캐시와 스냅샷
+/idden-film/.hyperframes/
+# 사용자가 받은 원본 음원(영상에는 이미 반영됨)
+/film/*.m4a
+# 로컬 도구 설정
+/.claude/
+/idden-film/.thumbnails/
+/idden-film/.impeccable/

@@ -1,0 +1,45 @@
+<template>
+  <style>
+    @font-face { font-family: "Outfit"; src: url("assets/fonts/Outfit.woff2") format("woff2"); font-weight: 100 900; }
+    @font-face { font-family: "Pretendard"; src: url("assets/fonts/PretendardVariable.woff2") format("woff2"); font-weight: 100 900; }
+    #root { position:absolute; inset:0; overflow:hidden; background:#193B2A; font-family:"Pretendard", sans-serif; }
+    .line { position:absolute; left:108px; right:108px; top:150px; color:#193B2A; font-size:76px; line-height:1.24; font-weight:600; letter-spacing:-0.04em; word-break:keep-all; }
+    .line span { display:inline-block; }
+    .line .l1 { color:#66716A; }
+    .line.on-dark { color:#FFFFFF; }
+    .line.on-dark .l1 { color:#C9D8CD; }
+    .src { position:absolute; left:108px; right:108px; bottom:150px; color:#66716A; font-size:36px; line-height:1.3; font-weight:500; letter-spacing:-0.02em; }
+    .obj img { display:block; width:100%; height:auto; filter:drop-shadow(0 20px 30px rgba(25,59,42,.16)); }
+    .obj { position:absolute; }
+
+    #forest-cam { position:absolute; inset:0; }
+    #forest-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+    #forest-top { position:absolute; left:0; right:0; top:0; height:42%; background:linear-gradient(180deg, rgba(12,28,20,.8), rgba(12,28,20,0)); }
+    #forest-bot { position:absolute; left:0; right:0; bottom:0; height:50%; background:linear-gradient(180deg, rgba(12,28,20,0), rgba(12,28,20,.82)); }
+    #forest-count { position:absolute; left:108px; bottom:260px; color:#FFFFFF; font-family:"Outfit", sans-serif; font-size:200px; line-height:1; font-weight:500; letter-spacing:-0.04em; font-variant-numeric:tabular-nums; }
+    #forest-unit { position:absolute; left:108px; right:108px; bottom:160px; color:#D9E4DC; font-size:46px; line-height:1.3; font-weight:600; letter-spacing:-0.03em; }
+    #forest-flood { position:absolute; inset:0; background:#193B2A; }
+  </style>
+  <div id="root" data-composition-id="forest" data-width="1080" data-height="1350">
+    <div id="forest-cam"><img id="forest-img" src="assets/img/borneo.jpg" alt="보르네오 열대우림 사이로 흐르는 강"></div>
+    <div id="forest-top"></div><div id="forest-bot"></div>
+    <p id="forest-line" class="line on-dark clip" data-start="0" data-duration="5.0" data-track-index="2" style="top:150px"><span class="l1" id="forest-l1">제품이 팔릴수록</span><br><span id="forest-l2">보르네오의 숲이 자랍니다</span></p>
+    <div id="forest-count" class="clip" data-start="0" data-duration="5.0" data-track-index="3">0</div>
+    <p id="forest-unit" class="clip" data-start="0" data-duration="5.0" data-track-index="4">그루, 탄중푸팅 국립공원에 심은 나무</p>
+    <div id="forest-flood" class="clip" data-start="0" data-duration="5.0" data-track-index="5" data-layout-ignore></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#forest-cam", { scale: 1.0 }, { scale: 1.08, duration: 5, ease: "power1.inOut" }, 0);
+    tl.fromTo("#forest-l1", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 0.2);
+    tl.fromTo("#forest-l2", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 0.32);
+    const c = { v: 0 }; const el = document.querySelector("#forest-count");
+    tl.fromTo("#forest-count", { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "power2.out" }, 1.0);
+    tl.fromTo(c, { v: 0 }, { v: 10000, duration: 1.5, ease: "power3.out", onUpdate: () => { el.textContent = Math.round(c.v).toLocaleString("en-US"); } }, 1.0);
+    tl.fromTo("#forest-unit", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.2, ease: "power4.out" }, 1.4);
+    tl.to(["#forest-line", "#forest-count", "#forest-unit"], { opacity: 0, filter: "blur(10px)", duration: 0.2, ease: "power3.in", stagger: 0.03 }, 4.45);
+    tl.fromTo("#forest-flood", { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.4, ease: "power2.inOut" }, 4.58);
+
+    window.__timelines["forest"] = tl;
+  </script>
+</template>

@@ -480,6 +480,9 @@ blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:13px;co
   try{pid=new URLSearchParams(location.search).get('pid')}catch(e){}
   if(!pid&&location.hash.length>1) pid=location.hash.slice(1);
   var link=document.getElementById('dppLink');
-  link.href=DPP_PAGE+(pid&&/^[a-z0-9-]+$/.test(pid)?'#'+pid:'');
+  var okPid=pid&&/^[a-z0-9-]+$/.test(pid);
+  link.href=DPP_PAGE+(okPid?'#'+pid:'');
+  /* 제품 ID 없이 열린 경우(팝업 안내판 QR 등)에는 '이 제품'이 가리킬 제품이 없으므로 문구를 바꿈 */
+  if(!okPid) link.firstChild.nodeValue='\n      제품 정보 확인하기\n      ';
 })();
 </script>

@@ -19,6 +19,10 @@ for (const vp of [{ w: 390, h: 844, tag: 'm' }, { w: 320, h: 640, tag: 's' }, { 
   // 선택 화면
   await page.goto(BASE + 'dpp.html');
   ok(`[${vp.tag}] 제품 ID 없으면 선택 화면 4개`, (await page.locator('.list li').count()) === 4);
+  ok(`[${vp.tag}] 선택 화면에 QR 찍으라는 안내 없음`, !(await page.locator('.choose').innerText()).includes('QR'));
+  await page.goto(BASE);
+  const noPid = (await page.locator('#dppLink').innerText()).trim();
+  ok(`[${vp.tag}] 제품 ID 없는 브랜드 페이지 버튼 문구`, noPid === '제품 정보 확인하기' && (await page.getAttribute('#dppLink', 'href')) === 'dpp.html', noPid);
 
   for (const id of IDS) {
     await page.goto(BASE + 'dpp.html#' + id);
@@ -38,6 +42,20 @@ for (const vp of [{ w: 390, h: 844, tag: 'm' }, { w: 320, h: 640, tag: 's' }, { 
     ok(`[${vp.tag}] ${id} 이미지 정상`, r.broken.length === 0, r.broken.join(','));
     ok(`[${vp.tag}] ${id} 글꼴, 흰 바탕`, r.font && r.bg === 'rgb(255, 255, 255)', r.bg);
     ok(`[${vp.tag}] ${id} 다른 제품 3개 링크`, r.others === 3);
+    const order = await page.evaluate(() => ({
+      specs: document.querySelectorAll('dl.spec').length,
+      keys: document.querySelectorAll('.keys').length,
+      heads: [...document.querySelectorAll('.sec h2')].map(h => h.textContent.replace(/^\d+/, '')),
+    }));
+    ok(`[${vp.tag}] ${id} 제품 정보 표 하나, 순서 고정`, order.specs === 1 && order.keys === 0 &&
+      order.heads.slice(0, 4).join('/') === '기본 정보/원료와 성분/포장/사용', order.heads.join('/'));
+    // 공개 범위: 로션, 얼스바 시트는 푸르메소셜팜 출처가 '관계자' 라서 카드가 없어야 함
+    const pub = await page.evaluate(() => ({ card: !!document.querySelector('.origin'), text: document.body.innerText }));
+    const isFrag = id.includes('fragrance');
+    ok(`[${vp.tag}] ${id} 원료 출처 카드는 프레그런스만`, pub.card === isFrag);
+    const mustNot = ['입에 넣', '엔글로벌', 'XA1762', 'LOT', '김해', '나전리', '월곶면', '청북', 'P&K', 'KTR', '정제수, 에탄올'];
+    const leak = mustNot.filter(w => pub.text.includes(w));
+    ok(`[${vp.tag}] ${id} 관계자 정보 노출 없음`, leak.length === 0, leak.join(','));
     const lows = await page.evaluate(() => {
       const parse = c => (c.match(/[\d.]+/g) || [0, 0, 0, 1]).map(Number);
       const lum = ([r, g, b]) => { const f = v => { v /= 255; return v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; }; return .2126 * f(r) + .7152 * f(g) + .0722 * f(b); };
@@ -56,6 +74,11 @@ for (const vp of [{ w: 390, h: 844, tag: 'm' }, { w: 320, h: 640, tag: 's' }, { 
   await page.click('.others a >> nth=0');
   await page.waitForTimeout(200);
   ok(`[${vp.tag}] 다른 제품 링크 이동`, (await page.locator('h1').textContent()).length > 0 && page.url().includes('#hb03-'), page.url());
+  // 목차 버튼: 주소(제품 ID)는 그대로, 해당 섹션으로 이동
+  await page.goto(BASE + 'dpp.html#hb03-fragrance-hillstate-50');
+  await page.click('.idx button >> nth=3'); await page.waitForTimeout(900);
+  const idxR = await page.evaluate(() => ({ top: document.getElementById('d-use').getBoundingClientRect().top, url: location.hash }));
+  ok(`[${vp.tag}] 목차 버튼으로 사용 섹션 이동`, idxR.top < 140 && idxR.top > 0 && idxR.url === '#hb03-fragrance-hillstate-50', JSON.stringify(idxR));
   // 브랜드 페이지 버튼 → 제품 정보
   await page.goto(BASE + '?pid=hb03-fragrance-hillstate-50');
   const href = await page.getAttribute('#dppLink', 'href');
